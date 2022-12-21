@@ -1,7 +1,7 @@
 import { Container } from '@mantine/core';
 import React from 'react';
-import AppBar from './appBar';
-import Footer from './footer';
+import AppBar from './AppBar';
+import Footer from './Footer';
 
 export default function LayoutDefault({ children }: React.PropsWithChildren) {
   return (

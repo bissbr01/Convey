@@ -2,7 +2,7 @@ import '../styles/globals.css';
 import type { AppProps } from 'next/app';
 import { MantineProvider } from '@mantine/core';
 import Head from 'next/head';
-import LayoutDefault from '../components/layoutDefault';
+import LayoutDefault from '../components/LayoutDefault';
 
 export default function App({ Component, pageProps }: AppProps) {
   return (

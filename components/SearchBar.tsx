@@ -28,7 +28,7 @@ export function SearchBar(props: TextInputProps) {
           )}
         </ActionIcon>
       }
-      placeholder="Search questions"
+      placeholder="Search stories"
       rightSectionWidth={42}
       {...props}
     />

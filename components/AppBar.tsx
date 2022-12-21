@@ -11,7 +11,7 @@ import {
   Avatar,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import AppLogo from '/logo.svg';
+import AppLogo from '/logo.png';
 import Image from 'next/image';
 
 const HEADER_HEIGHT = 60;
@@ -127,14 +127,14 @@ export default function AppBar() {
   ));
 
   return (
-    <Header height={HEADER_HEIGHT} mb={120} className={classes.root}>
+    <Header height={HEADER_HEIGHT} mb={20} className={classes.root}>
       <Container className={classes.header}>
-        <Image src="/logo.svg" alt="logo" height="40" width="40" />
+        <Image src="/logo.png" alt="logo" height="45" width="45" />
         <Title weight={300}>Convey</Title>
         <Group spacing={5} className={classes.links}>
           {items}
+          <Avatar radius={50} color="blue" src={null} alt="no image here" />
         </Group>
-        <Avatar radius={50} color="blue" src={null} alt="no image here" />
         <Burger
           opened={opened}
           onClick={toggle}
