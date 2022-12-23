@@ -101,7 +101,7 @@ interface AppBar {
 
 export default function AppBar() {
   const links = [
-    { link: '/search', label: 'Search' },
+    { link: '/', label: 'Search' },
     { link: '/explore', label: 'Explore' },
     { link: '/about', label: 'About' },
   ];
