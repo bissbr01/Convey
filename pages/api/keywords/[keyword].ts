@@ -12,9 +12,11 @@ export default async function handler(
         new QueryCommand({
           TableName: process.env.TABLE_NAME,
           IndexName: 'Inverted-Index',
-          KeyConditionExpression: 'PK = :keyword',
+          KeyConditionExpression:
+            'SK = :keyword and begins_with(PK, :sortKeyPrefix)',
           ExpressionAttributeValues: {
             ':keyword': `Keyword#${req.query.keyword}`,
+            ':sortKeyPrefix': 'Illustration#',
           },
         })
       );

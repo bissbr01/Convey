@@ -1,4 +1,4 @@
-import { QueryCommand } from '@aws-sdk/lib-dynamodb';
+import { GetCommand, QueryCommand } from '@aws-sdk/lib-dynamodb';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { ddbDocClient } from '../../../lib/ddbDocClient';
 
@@ -12,10 +12,10 @@ export default async function handler(
         new QueryCommand({
           TableName: process.env.TABLE_NAME,
           KeyConditionExpression:
-            'PK = :partitionKey and SK begins_with :sortKeyPrefix',
+            'PK = :PK and begins_with(SK, :sortKeyPrefix)',
           ExpressionAttributeValues: {
-            ':partitionKey': req.query.pk,
-            ':sortKeyPrefix': req.query.skPrefix,
+            ':PK': `Illustration#${req.query.snippet}`,
+            ':sortKeyPrefix': 'Meta#',
           },
         })
       );

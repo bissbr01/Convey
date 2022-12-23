@@ -11,9 +11,11 @@ export default async function handler(
       const { Items } = await ddbDocClient.send(
         new QueryCommand({
           TableName: process.env.TABLE_NAME,
-          KeyConditionExpression: 'PK = :PK and SK begins_with meta#',
+          KeyConditionExpression:
+            'PK = :PK and begins_with(SK, :sortKeyPrefix)',
           ExpressionAttributeValues: {
             ':PK': `Illustration#${req.query.snippet}`,
+            ':sortKeyPrefix': 'Meta#',
           },
         })
       );

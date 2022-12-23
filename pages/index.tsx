@@ -9,7 +9,7 @@ import { SearchBar } from '../components/SearchBar';
 import styles from '../styles/Home.module.css';
 
 export default function Home() {
-  const [keyword, setKeyword] = useState('');
+  const [keyword, setKeyword] = useState('college');
 
   return (
     <>
