@@ -1,11 +1,16 @@
+import { Dispatch, SetStateAction } from 'react';
 import Keywords from './Keywords';
 import { SearchBar } from './SearchBar';
 
-export default function KeywordSearch() {
+interface KeywordSearchProps {
+  setKeyword: Dispatch<SetStateAction<string>>;
+}
+
+export default function KeywordSearch({ setKeyword }: KeywordSearchProps) {
   return (
     <>
       <SearchBar />
-      <Keywords />
+      <Keywords setKeyword={setKeyword} />
     </>
   );
 }

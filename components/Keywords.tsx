@@ -1,30 +1,30 @@
+import { ActionIcon, Chip, Spoiler, Stack } from '@mantine/core';
+import { IconChevronDown, IconChevronUp } from '@tabler/icons';
 import {
-  ActionIcon,
-  Button,
-  Chip,
-  Collapse,
-  Group,
-  Spoiler,
-  Stack,
-} from '@mantine/core';
-import {
-  IconArrowBadgeDown,
-  IconArrowBadgeUp,
-  IconArrowBigDown,
-  IconArrowBigTop,
-  IconChevronDown,
-  IconChevronUp,
-} from '@tabler/icons';
-import { useEffect, useRef, useState } from 'react';
+  Dispatch,
+  MouseEvent,
+  SetStateAction,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import commonKeywords from '../public/keywords/keywords_w_weights_common.json';
 
-export default function Keywords() {
+interface KeywordProps {
+  setKeyword: Dispatch<SetStateAction<string>>;
+}
+
+export default function Keywords({ setKeyword }: KeywordProps) {
   const [opened, setOpened] = useState(false);
   const spoilerControlRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     spoilerControlRef.current?.click();
   }, [opened]);
+
+  const handleClick = (e: MouseEvent<HTMLInputElement>) => {
+    setKeyword(e.currentTarget.value);
+  };
 
   return (
     <>
@@ -36,7 +36,7 @@ export default function Keywords() {
       >
         <Chip.Group position="center" mt="md">
           {commonKeywords.map(([count, keyword], i) => (
-            <Chip key={`${keyword}${count}`} value={i}>
+            <Chip key={`${keyword}${count}`} value={i} onClick={handleClick}>
               {keyword}: {count}
             </Chip>
           ))}
