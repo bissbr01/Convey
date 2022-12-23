@@ -8,13 +8,13 @@ interface PortraitsProps {
 }
 
 export default function Portraits({ keyword }: PortraitsProps) {
-  const fetcher = () => fetch(keyword).then((res) => res.json());
-  const {
-    data: illustrations,
-    error,
-    isLoading,
-  } = useSWR<[IllustrationMeta]>('/api/keywords/', fetcher);
+  const fetcher = (url: string) => fetch(url).then((res) => res.json());
+  const { data: illustrations, error } = useSWR<[IllustrationMeta]>(
+    `/api/keywords/${keyword}`,
+    fetcher
+  );
 
+  if (error) return <div>Failed to load</div>;
   if (!illustrations) return <Loader />;
   return (
     <>

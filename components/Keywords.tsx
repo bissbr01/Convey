@@ -24,6 +24,7 @@ export default function Keywords({ setKeyword }: KeywordProps) {
 
   const handleClick = (e: MouseEvent<HTMLInputElement>) => {
     setKeyword(e.currentTarget.value);
+    console.log(e.currentTarget.value);
   };
 
   return (

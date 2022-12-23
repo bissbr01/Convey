@@ -1,4 +1,4 @@
-import { GetCommand, QueryCommand } from '@aws-sdk/lib-dynamodb';
+import { QueryCommand } from '@aws-sdk/lib-dynamodb';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { ddbDocClient } from '../../../lib/ddbDocClient';
 
@@ -11,9 +11,10 @@ export default async function handler(
       const { Items } = await ddbDocClient.send(
         new QueryCommand({
           TableName: process.env.TABLE_NAME,
-          KeyConditionExpression: 'PK = :PK and SK begins_with meta#',
+          IndexName: 'Inverted-Index',
+          KeyConditionExpression: 'PK = :keyword',
           ExpressionAttributeValues: {
-            ':PK': `Illustration#${req.query.snippet}`,
+            ':keyword': `Keyword#${req.query.keyword}`,
           },
         })
       );
