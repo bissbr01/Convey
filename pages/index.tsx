@@ -16,7 +16,7 @@ export default function Home() {
       <Title order={1} m="md" weight={300}>
         Discover Stories
       </Title>
-      <KeywordSearch setKeyword={setKeyword} />
+      <KeywordSearch keyword={keyword} setKeyword={setKeyword} />
       <Portraits keyword={keyword} />
     </>
   );

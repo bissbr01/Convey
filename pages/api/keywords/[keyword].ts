@@ -11,6 +11,7 @@ export default async function handler(
       const { Items } = await ddbDocClient.send(
         new QueryCommand({
           TableName: process.env.TABLE_NAME,
+          Limit: 20,
           IndexName: 'Inverted-Index',
           KeyConditionExpression:
             'SK = :keyword and begins_with(PK, :sortKeyPrefix)',

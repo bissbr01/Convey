@@ -11,10 +11,11 @@ import {
 import commonKeywords from '../public/keywords/keywords_w_weights_common.json';
 
 interface KeywordProps {
+  keyword: string;
   setKeyword: Dispatch<SetStateAction<string>>;
 }
 
-export default function Keywords({ setKeyword }: KeywordProps) {
+export default function Keywords({ keyword, setKeyword }: KeywordProps) {
   const [opened, setOpened] = useState(false);
   const spoilerControlRef = useRef<HTMLButtonElement>(null);
 
@@ -36,9 +37,14 @@ export default function Keywords({ setKeyword }: KeywordProps) {
         hideLabel=""
       >
         <Chip.Group position="center" mt="md">
-          {commonKeywords.map(([count, keyword], i) => (
-            <Chip key={`${keyword}${count}`} value={i} onClick={handleClick}>
-              {keyword}: {count}
+          {commonKeywords.map(([count, kWord]) => (
+            <Chip
+              key={`${kWord}${count}`}
+              value={kWord}
+              onClick={handleClick}
+              checked={kWord === keyword}
+            >
+              {kWord}: {count}
             </Chip>
           ))}
         </Chip.Group>

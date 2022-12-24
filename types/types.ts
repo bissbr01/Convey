@@ -7,6 +7,7 @@ export interface IllustrationMeta extends Document {
   text: string;
   image: string;
   date: string;
+  link: string;
   keywords: Set<string>;
   entities: Set<string>;
 }

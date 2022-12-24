@@ -1,5 +1,6 @@
 import { Group, Loader } from '@mantine/core';
 import useSWR from 'swr';
+import InfiniteScroll from 'react-infinite-scroller';
 import { IllustrationMeta } from '../types/types';
 import Portrait from './Portrait';
 
@@ -18,10 +19,17 @@ export default function Portraits({ keyword }: PortraitsProps) {
   if (!illustrations) return <Loader />;
   return (
     <>
-      <Group>
+      <Group position="center">
+        {/* <InfiniteScroll
+          pageStart={0}
+          loadMore={loadFunc}
+          hasMore={true || false}
+          loader={<Loader />}
+        > */}
         {illustrations.map((meta) => (
-          <Portrait key={meta.SK} meta={meta} />
+          <Portrait key={meta.link} meta={meta} />
         ))}
+        {/* </InfiniteScroll> */}
       </Group>
     </>
   );
