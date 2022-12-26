@@ -21,6 +21,7 @@ const useStyles = createStyles((theme) => ({
   root: {
     position: 'relative',
     zIndex: 1,
+    boxShadow: '0px 0px 2px black',
   },
 
   dropdown: {
@@ -127,7 +128,7 @@ export default function AppBar() {
   ));
 
   return (
-    <Header height={HEADER_HEIGHT} mb={20} className={classes.root}>
+    <Header height={HEADER_HEIGHT} className={classes.root}>
       <Container className={classes.header}>
         <Image src="/logo.png" alt="logo" height="45" width="45" />
         <Title weight={300}>Convey</Title>

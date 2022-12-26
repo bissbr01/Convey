@@ -7,7 +7,7 @@ export default function LayoutDefault({ children }: React.PropsWithChildren) {
   return (
     <>
       <AppBar />
-      <Container>
+      <Container fluid sx={{ padding: 0 }}>
         <main>{children}</main>
       </Container>
       <Footer />

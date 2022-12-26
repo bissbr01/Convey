@@ -1,3 +1,4 @@
+import { Group } from '@mantine/core';
 import { Dispatch, SetStateAction } from 'react';
 import Keywords from './Keywords';
 import { SearchBar } from './SearchBar';
@@ -13,7 +14,9 @@ export default function KeywordSearch({
 }: KeywordSearchProps) {
   return (
     <>
-      <SearchBar />
+      <Group position="center">
+        <SearchBar />
+      </Group>
       <Keywords keyword={keyword} setKeyword={setKeyword} />
     </>
   );

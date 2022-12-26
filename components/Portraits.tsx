@@ -19,7 +19,7 @@ export default function Portraits({ keyword }: PortraitsProps) {
   if (!illustrations) return <Loader />;
   return (
     <>
-      <Group position="center">
+      <Group position="center" spacing="md">
         {/* <InfiniteScroll
           pageStart={0}
           loadMore={loadFunc}
