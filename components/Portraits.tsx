@@ -8,11 +8,13 @@ import { TransactGetCommand } from '@aws-sdk/lib-dynamodb';
 interface PortraitsProps {
   keyword: string;
 }
-const PAGE_SIZE = 16;
+const PAGE_SIZE = 20;
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 export default function Portraits({ keyword }: PortraitsProps) {
   const getKey: SWRInfiniteKeyLoader = (pageIndex, previousPageData) => {
+    if (previousPageData && typeof previousPageData.lastItem === 'undefined')
+      return;
     if (previousPageData && previousPageData.length === 0) return null;
     if (pageIndex === 0)
       return `/api/keywords/${keyword}?pageSize=${PAGE_SIZE}`;
@@ -87,7 +89,6 @@ export default function Portraits({ keyword }: PortraitsProps) {
           ref={(ref) => setLastElement(ref)}
         />
       </Group>
-      <Button onClick={() => setSize(size + 1)}>Load More</Button>
     </>
   );
 }

@@ -29,7 +29,6 @@ export default async function handler(
       };
       // @ts-ignore
       const result = await ddbDocClient.send(new QueryCommand(params));
-      console.log('result from backend: ', result.LastEvaluatedKey);
       return res
         .status(200)
         .json({ items: result.Items, lastItem: result.LastEvaluatedKey });
