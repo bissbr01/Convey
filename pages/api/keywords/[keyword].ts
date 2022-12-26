@@ -9,7 +9,11 @@ export default async function handler(
 ) {
   if (req.method === 'GET') {
     const pageSize = 'pageSize' in req.query ? Number(req.query.pageSize) : 20;
-    const startKey = req.query.lastItem ? req.query.lastItem : undefined;
+    const startKey =
+      'lastItem' in req.query && req.query.lastItem
+        ? JSON.parse(decodeURIComponent(req.query.lastItem as string))
+        : undefined;
+
     try {
       const params = {
         TableName: process.env.TABLE_NAME,
@@ -25,6 +29,7 @@ export default async function handler(
       };
       // @ts-ignore
       const result = await ddbDocClient.send(new QueryCommand(params));
+      console.log('result from backend: ', result.LastEvaluatedKey);
       return res
         .status(200)
         .json({ items: result.Items, lastItem: result.LastEvaluatedKey });

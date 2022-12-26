@@ -1,23 +1,24 @@
-import { Group, Loader } from '@mantine/core';
+import { Button, Group, Loader } from '@mantine/core';
 import useSWRInfinite, { SWRInfiniteKeyLoader } from 'swr/infinite';
-import InfiniteScroll from 'react-infinite-scroller';
 import { IllustrationMeta } from '../types/types';
 import Portrait from './Portrait';
-import { useCallback, useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { TransactGetCommand } from '@aws-sdk/lib-dynamodb';
 
 interface PortraitsProps {
   keyword: string;
 }
+const PAGE_SIZE = 16;
+const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 export default function Portraits({ keyword }: PortraitsProps) {
-  const PAGE_SIZE = 20;
-  const fetcher = (url: string) => fetch(url).then((res) => res.json());
   const getKey: SWRInfiniteKeyLoader = (pageIndex, previousPageData) => {
-    console.log('previous page data: ', previousPageData);
-    if (previousPageData && !previousPageData.length) return null;
-    if (!previousPageData)
+    if (previousPageData && previousPageData.length === 0) return null;
+    if (pageIndex === 0)
       return `/api/keywords/${keyword}?pageSize=${PAGE_SIZE}`;
-    return `/api/keywords/${keyword}?pageSize=${PAGE_SIZE}&lastItem=${previousPageData.lastItem}`;
+    return `/api/keywords/${keyword}?pageSize=${PAGE_SIZE}&lastItem=${encodeURIComponent(
+      JSON.stringify(previousPageData.lastItem)
+    )}`;
   };
   const {
     data: illustrationRequests,
@@ -30,43 +31,63 @@ export default function Portraits({ keyword }: PortraitsProps) {
     items: IllustrationMeta[];
     lastItem: string;
   }>(getKey, fetcher);
-  console.log('init size: ', size);
 
-  const loader = useRef(null);
-  const handleObserver: IntersectionObserverCallback = useCallback(
-    (entries) => {
-      const target = entries[0];
-      if (target.isIntersecting) {
-        setSize(size + 1);
-        console.log('size change: ', size);
-      }
-    },
-    []
-  );
+  const prevPos = useRef(-1);
+  const [lastElement, setLastElement] = useState<HTMLDivElement | null>(null);
+
+  const loadMore = (): void => {
+    if (
+      !illustrationRequests ||
+      !size ||
+      (!illustrationRequests.length && isValidating)
+    )
+      return;
+    setSize((size) => size + 1);
+  };
 
   useEffect(() => {
-    const option = {
-      root: null,
-      rootMargin: '20px',
-      threshold: 0,
+    const currentElement = lastElement;
+    const currentObserver = new IntersectionObserver(
+      (entries) => {
+        const firstEntry = entries[0];
+        const pos = firstEntry.boundingClientRect['y'];
+        if (prevPos.current > pos || prevPos.current === -1) {
+          setTimeout(() => loadMore(), 100);
+        }
+        prevPos.current = pos;
+      },
+      { threshold: 1 }
+    );
+    if (currentElement) {
+      currentObserver.observe(currentElement);
+    }
+    return (): void => {
+      if (currentElement) {
+        currentObserver.disconnect();
+      }
     };
-    const observer = new IntersectionObserver(handleObserver, option);
-    if (loader.current) observer.observe(loader.current);
-  }, [handleObserver]);
+  }, [lastElement]);
 
   if (error) return <div>Failed to load</div>;
   if (!illustrationRequests) return <Loader />;
+
+  const illustrations = illustrationRequests.reduce<IllustrationMeta[]>(
+    (prev, illustrationRequest) => prev.concat(illustrationRequest.items),
+    []
+  );
+
   return (
     <>
       <Group position="center" spacing="md">
-        {illustrationRequests.map((illustrations) =>
-          illustrations.items.map((meta) => (
-            <Portrait key={meta.link} meta={meta} />
-          ))
-        )}
-        <div ref={loader} />
+        {illustrations.map((meta, i) => (
+          <Portrait key={meta.link} meta={meta} />
+        ))}
+        <div
+          style={{ width: 300, height: 300 }}
+          ref={(ref) => setLastElement(ref)}
+        />
       </Group>
-      <button onClick={() => setSize(size + 1)}>Load More</button>
+      <Button onClick={() => setSize(size + 1)}>Load More</Button>
     </>
   );
 }
