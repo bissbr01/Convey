@@ -23,3 +23,5 @@ export interface IllustrationEntity extends Document {
 }
 
 export type KeywordIllustrations = [IllustrationKeyword];
+
+export type KeywordAndWeight = [number, string];

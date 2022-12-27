@@ -6,6 +6,8 @@ import {
   createStyles,
 } from '@mantine/core';
 import { IconSearch, IconArrowRight, IconArrowLeft } from '@tabler/icons';
+import { ChangeEvent, Dispatch, SetStateAction, SyntheticEvent } from 'react';
+import { KeywordAndWeight } from '../types/types';
 
 const useStyles = createStyles((theme) => ({
   input: {
@@ -17,9 +19,22 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-export function SearchBar(props: TextInputProps) {
+interface SearchBar extends TextInputProps {
+  keywords: KeywordAndWeight[];
+  setKeywords: Dispatch<SetStateAction<KeywordAndWeight[]>>;
+}
+
+export function SearchBar({ keywords, setKeywords, ...props }: SearchBar) {
   const theme = useMantineTheme();
   const { classes } = useStyles();
+
+  const handleChange = ({ currentTarget }: ChangeEvent<HTMLInputElement>) => {
+    const filteredKeywords = keywords.filter((keywordAndWeight) =>
+      keywordAndWeight[1].startsWith(currentTarget.value)
+    );
+    filteredKeywords.sort((a, b) => a[0] - b[0]);
+    setKeywords(filteredKeywords);
+  };
 
   return (
     <TextInput
@@ -29,6 +44,7 @@ export function SearchBar(props: TextInputProps) {
       className={classes.input}
       placeholder="Filter keywords"
       rightSectionWidth={42}
+      onChange={handleChange}
       {...props}
     />
   );
