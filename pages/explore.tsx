@@ -1,5 +1,12 @@
 import { Title } from '@mantine/core';
-import { DisplayGraph } from '../components/SigmaGraph';
+import dynamic from 'next/dynamic';
+
+const DisplayGraph = dynamic(
+  () => import('../components/SigmaGraph').then((mod) => mod.DisplayGraph),
+  {
+    ssr: false,
+  }
+);
 
 export default function Explore() {
   return (

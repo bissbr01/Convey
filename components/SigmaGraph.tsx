@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 import Graph from 'graphology';
 import { SigmaContainer, useLoadGraph } from '@react-sigma/core';
-import '@react-sigma/core/lib/react-sigma.min.css';
 
 export function LoadGraph() {
   const loadGraph = useLoadGraph();
