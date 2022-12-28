@@ -8,14 +8,21 @@ import {
   useRef,
   useState,
 } from 'react';
+import keywordsReduced from '../public/keywords/keywords_w_weights_reduced.json';
 import commonKeywords from '../public/keywords/keywords_w_weights_common.json';
+import { KeywordAndWeight } from '../types/types';
 
 interface KeywordProps {
   keyword: string;
+  keywords: KeywordAndWeight[];
   setKeyword: Dispatch<SetStateAction<string>>;
 }
 
-export default function Keywords({ keyword, setKeyword }: KeywordProps) {
+export default function Keywords({
+  keyword,
+  keywords,
+  setKeyword,
+}: KeywordProps) {
   const [opened, setOpened] = useState(false);
   const spoilerControlRef = useRef<HTMLButtonElement>(null);
 
@@ -28,6 +35,16 @@ export default function Keywords({ keyword, setKeyword }: KeywordProps) {
     console.log(e.currentTarget.value);
   };
 
+  const selectKeywords = (): KeywordAndWeight[] => {
+    if (
+      keywords &&
+      keywords.length !== keywordsReduced.length &&
+      keywords.length !== 0
+    )
+      return keywords;
+    return commonKeywords as KeywordAndWeight[];
+  };
+
   return (
     <>
       <Spoiler
@@ -37,7 +54,7 @@ export default function Keywords({ keyword, setKeyword }: KeywordProps) {
         hideLabel=""
       >
         <Chip.Group position="center" mt="md">
-          {commonKeywords.map(([count, kWord]) => (
+          {selectKeywords().map(([count, kWord]) => (
             <Chip
               key={`${kWord}${count}`}
               value={kWord}

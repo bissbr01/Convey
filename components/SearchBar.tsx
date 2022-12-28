@@ -1,13 +1,13 @@
 import {
   TextInput,
   TextInputProps,
-  ActionIcon,
   useMantineTheme,
   createStyles,
 } from '@mantine/core';
-import { IconSearch, IconArrowRight, IconArrowLeft } from '@tabler/icons';
-import { ChangeEvent, Dispatch, SetStateAction, SyntheticEvent } from 'react';
+import { IconSearch } from '@tabler/icons';
+import { ChangeEvent, Dispatch, SetStateAction, useRef } from 'react';
 import { KeywordAndWeight } from '../types/types';
+import keywordsReduced from '../public/keywords/keywords_w_weights_reduced.json';
 
 const useStyles = createStyles((theme) => ({
   input: {
@@ -28,8 +28,12 @@ export function SearchBar({ keywords, setKeywords, ...props }: SearchBar) {
   const theme = useMantineTheme();
   const { classes } = useStyles();
 
+  const initKeywords = useRef<KeywordAndWeight[]>(
+    keywordsReduced as KeywordAndWeight[]
+  );
+
   const handleChange = ({ currentTarget }: ChangeEvent<HTMLInputElement>) => {
-    const filteredKeywords = keywords.filter((keywordAndWeight) =>
+    const filteredKeywords = initKeywords.current.filter((keywordAndWeight) =>
       keywordAndWeight[1].startsWith(currentTarget.value)
     );
     filteredKeywords.sort((a, b) => a[0] - b[0]);
