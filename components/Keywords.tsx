@@ -32,16 +32,15 @@ export default function Keywords({
 
   const handleClick = (e: MouseEvent<HTMLInputElement>) => {
     setKeyword(e.currentTarget.value);
-    console.log(e.currentTarget.value);
   };
 
+  const isKeywordSelection = () =>
+    keywords &&
+    keywords.length !== keywordsReduced.length &&
+    keywords.length !== 0;
+
   const selectKeywords = (): KeywordAndWeight[] => {
-    if (
-      keywords &&
-      keywords.length !== keywordsReduced.length &&
-      keywords.length !== 0
-    )
-      return keywords;
+    if (isKeywordSelection()) return keywords;
     return commonKeywords as KeywordAndWeight[];
   };
 
@@ -53,13 +52,28 @@ export default function Keywords({
         showLabel=""
         hideLabel=""
       >
-        <Chip.Group position="center" mt="md">
+        <Chip.Group position="center" mt="md" sx={{ minHeight: 70 }}>
           {selectKeywords().map(([count, kWord]) => (
             <Chip
               key={`${kWord}${count}`}
               value={kWord}
               onClick={handleClick}
               checked={kWord === keyword}
+              sx={(theme) => ({
+                '.mantine-Chip-label': {
+                  backgroundColor: theme.white,
+                  border: isKeywordSelection()
+                    ? `1px solid ${theme.colors.blue[3]}`
+                    : `1px solid ${theme.colors.gray[4]}`,
+                  '&[data-checked="true"]': {
+                    backgroundColor: theme.colors.blue[4],
+                    color: theme.white,
+                  },
+                  '.mantine-Chip-checkIcon': {
+                    filter: 'brightness(.7) saturate(100%)',
+                  },
+                },
+              })}
             >
               {kWord}: {count}
             </Chip>

@@ -68,6 +68,7 @@ export default function Portraits({ keyword }: PortraitsProps) {
         currentObserver.disconnect();
       }
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [lastElement]);
 
   if (error) return <div>Failed to load</div>;
