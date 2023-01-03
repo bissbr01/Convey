@@ -30,7 +30,7 @@ export default function Home() {
   return (
     <>
       <section className={classes.section}>
-        <Title align="center" order={2} p="md" weight={300}>
+        <Title align="center" order={2} p="md">
           Search by Keyword
         </Title>
         <KeywordSearch keyword={keyword} setKeyword={setKeyword} />

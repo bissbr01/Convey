@@ -104,7 +104,7 @@ interface AppBar {
 export default function AppBar() {
   const links = [
     { link: '/', label: 'Search' },
-    { link: '/explore', label: 'Explore' },
+    // { link: '/explore', label: 'Explore' },
     { link: '/about', label: 'About' },
   ];
   const [opened, { toggle, close }] = useDisclosure(false);
@@ -131,10 +131,10 @@ export default function AppBar() {
     <Header height={HEADER_HEIGHT} className={classes.root}>
       <Container className={classes.header}>
         <Image src="/logo.png" alt="logo" height="45" width="45" />
-        <Title weight={300}>Convey</Title>
+        <Title>Convey</Title>
         <Group spacing={5} className={classes.links}>
           {items}
-          <Avatar radius={50} color="blue" src={null} alt="no image here" />
+          {/* <Avatar radius={50} color="blue" src={null} alt="no image here" /> */}
         </Group>
         <Burger
           opened={opened}
