@@ -35,8 +35,8 @@ export default function About() {
           The Problem:
         </Title>
         <Text className={classes.text}>
-          If you've ever sought to publically communicate an idea, whether
-          spoken or written, you've likely wrestled with the challenge of
+          If you&apos;ve ever sought to publically communicate an idea, whether
+          spoken or written, you&apos;ve likely wrestled with the challenge of
           finding powerful stories to help you communicate your message.
         </Text>
         <Text className={classes.text}>
@@ -74,9 +74,9 @@ export default function About() {
             Humans of New York.
           </Anchor>
           {'  '}
-          All rights belong to Brandon Stanton, it's creator. To help support
-          his project, please note that Convey drives traffic to His site once
-          you click on a story thumbnail.
+          All rights belong to Brandon Stanton, it&apos;s creator. To help
+          support his project, please note that Convey drives traffic to His
+          site once you click on a story thumbnail.
         </Text>
       </Container>
     </>

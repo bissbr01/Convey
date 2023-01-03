@@ -104,7 +104,7 @@ interface AppBar {
 export default function AppBar() {
   const links = [
     { link: '/', label: 'Search' },
-    // { link: '/explore', label: 'Explore' },
+    { link: '/explore', label: 'Explore' },
     { link: '/about', label: 'About' },
   ];
   const [opened, { toggle, close }] = useDisclosure(false);
