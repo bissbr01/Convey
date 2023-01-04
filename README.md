@@ -1,7 +1,10 @@
 # Convey
 Discover compelling human interest stories to enhance your speaking or writing.
 
+![image](https://user-images.githubusercontent.com/13155120/210640514-3c3bf59b-5284-41b7-a4d8-f030375f54aa.png)
+
 See it live at: https://illustration-finder-hony.vercel.app/
+
 
 ## The Problem
 If you've ever sought to publically communicate an idea, whether spoken or written, you've likely wrestled with the challenge of finding powerful stories to help you communicate your message.  Some of the most effective stories for communication are human interest stories. They sharpen and clarify your argument while at the same time engaging your audience and drawing in their attention.
