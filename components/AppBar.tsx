@@ -97,10 +97,6 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-interface AppBar {
-  links: { link: string; label: string }[];
-}
-
 export default function AppBar() {
   const links = [
     { link: '/', label: 'Search' },
