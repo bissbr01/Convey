@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "cypress": "cypress open"
   },
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.236.0",
@@ -34,6 +35,11 @@
     "typescript": "4.9.4"
   },
   "devDependencies": {
-    "@types/react-infinite-scroller": "^1.2.3"
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^13.4.0",
+    "@types/react-infinite-scroller": "^1.2.3",
+    "cypress": "^12.3.0",
+    "jest": "^29.3.1",
+    "jest-environment-jsdom": "^29.3.1"
   }
 }
