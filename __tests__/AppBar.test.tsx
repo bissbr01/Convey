@@ -1,7 +1,8 @@
-import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
+import { describe, expect, it } from '@jest/globals';
+import AppBar from '../components/AppBar';
 import userEvent from '@testing-library/user-event';
-import AppBar from '../AppBar';
+import '@testing-library/jest-dom';
 
 describe('AppBar component renders correctly', () => {
   const links = [
@@ -18,17 +19,12 @@ describe('AppBar component renders correctly', () => {
   it('navigates to About page when link is clicked', async () => {
     render(<AppBar />);
 
-    const user = userEvent.setup();
-    const detailsButton = screen.getByText('details');
-    await user.click(detailsButton);
-  });
+    const searchNav = screen.getByText('Search');
+    expect(searchNav.classList.contains('mantine-1q47gp')).toBe(true);
 
-  it('calls updateBlog 2x when Likes button is clicked 2x', async () => {
-    render(<AppBar />);
+    const aboutNav = screen.getByText('About');
     const user = userEvent.setup();
-
-    const likeButton = screen.getByText('Like');
-    await user.click(likeButton);
-    await user.click(likeButton);
+    await user.click(aboutNav);
+    expect(aboutNav.classList.contains('mantine-1q47gp')).toBe(true);
   });
 });
