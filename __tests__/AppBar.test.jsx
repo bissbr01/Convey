@@ -1,9 +1,8 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import preview from 'jest-preview';
 import AppBar from '../components/AppBar';
 
-describe('AppBar component renders correctly', () => {
+describe('AppBar.tsx', () => {
   const links = [
     { link: '/', label: 'Search' },
     // { link: '/explore', label: 'Explore' },

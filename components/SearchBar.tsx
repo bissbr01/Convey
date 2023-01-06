@@ -24,7 +24,11 @@ interface SearchBar extends TextInputProps {
   setKeywords: Dispatch<SetStateAction<KeywordAndWeight[]>>;
 }
 
-export function SearchBar({ keywords, setKeywords, ...props }: SearchBar) {
+export default function SearchBar({
+  keywords,
+  setKeywords,
+  ...props
+}: SearchBar) {
   const theme = useMantineTheme();
   const { classes } = useStyles();
 
