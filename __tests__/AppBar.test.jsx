@@ -1,8 +1,7 @@
 import { render, screen } from '@testing-library/react';
-import { describe, expect, it } from '@jest/globals';
-import AppBar from '../components/AppBar';
 import userEvent from '@testing-library/user-event';
-import '@testing-library/jest-dom';
+import preview from 'jest-preview';
+import AppBar from '../components/AppBar';
 
 describe('AppBar component renders correctly', () => {
   const links = [
@@ -20,11 +19,11 @@ describe('AppBar component renders correctly', () => {
     render(<AppBar />);
 
     const searchNav = screen.getByText('Search');
-    expect(searchNav.classList.contains('mantine-1q47gp')).toBe(true);
+    expect(searchNav).toHaveClass('mantine-1q47gp');
 
     const aboutNav = screen.getByText('About');
     const user = userEvent.setup();
     await user.click(aboutNav);
-    expect(aboutNav.classList.contains('mantine-1q47gp')).toBe(true);
+    expect(aboutNav).toHaveClass('mantine-1q47gp');
   });
 });

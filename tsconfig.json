@@ -15,13 +15,16 @@
     "jsx": "preserve",
     "incremental": true
   },
-  "types": ["node", "jest", "@testing-library/jest-dom"],
+  "types": ["node", "jest"],
   "include": [
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
     "./jest.config.js,",
-    "./jestSetup.ts"
+    "./jestSetup.ts",
+    "__tests__/Keywords.test.jsx",
+    "__tests__/Footer.test.jsx",
+    "__tests__/AppBar.test.jsx"
   ],
   "exclude": ["node_modules"]
 }
