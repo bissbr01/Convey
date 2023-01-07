@@ -13,6 +13,7 @@ describe('Keywords.tsx', () => {
     [198, 'New York'],
     [187, 'work'],
     [185, 'life'],
+    a,
   ];
   const setKeyword = jest.fn();
 

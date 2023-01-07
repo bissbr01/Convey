@@ -72,7 +72,12 @@ export default function Portraits({ keyword }: PortraitsProps) {
   }, [lastElement]);
 
   if (error) return <div>Failed to load</div>;
-  if (!illustrationRequests) return <Loader />;
+  if (!illustrationRequests)
+    return (
+      <div data-testid="loader">
+        <Loader />
+      </div>
+    );
 
   const illustrations = illustrationRequests.reduce<IllustrationMeta[]>(
     (prev, illustrationRequest) => prev.concat(illustrationRequest.items),

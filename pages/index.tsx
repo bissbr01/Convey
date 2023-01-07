@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 import KeywordSearch from '../components/KeywordSearch';
 import Portraits from '../components/Portraits';
-import { SearchBar } from '../components/SearchBar';
+import SearchBar from '../components/SearchBar';
 import styles from '../styles/Home.module.css';
 
 const useStyles = createStyles((theme) => ({
