@@ -18,4 +18,20 @@ Convey is a Next.js responsive web application with the frontend and backend api
 
 ![image](https://user-images.githubusercontent.com/13155120/210637141-021f7c3b-89fc-49d7-8cbb-d47ce817c6b1.png)
 
+## Setup
+Covney is built on top of the (Create Next App framework)[https://nextjs.org/docs/api-reference/create-next-app].  Fork this repo and then install dependencies with `npm install`.
+
+Run locally in development with `npm run dev`.  
+Build for production with `npm run build`.  
+Run with `npm start`.
+
+You will need to configure your own DynamoDB NoSQL database and supply the following enviornment variables before running:
+
+    ACCESS_KEY=
+    SECRET_KEY=
+    REGION=
+    TABLE_NAME=
+
+
+
 
