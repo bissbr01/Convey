@@ -1,4 +1,4 @@
-import { Container, createStyles, Title } from '@mantine/core';
+import { Container, createStyles, Text, Title } from '@mantine/core';
 import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -34,6 +34,9 @@ export default function Home() {
           <Title align="center" order={2} p="md">
             Search by Keyword
           </Title>
+          <Text align="center" fs="italic" color="dimmed">
+            Discover compelling human interest stories to illustrate your idea
+          </Text>
           <KeywordSearch keyword={keyword} setKeyword={setKeyword} />
         </Container>
       </section>
