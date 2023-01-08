@@ -4,10 +4,10 @@ import { MantineProvider } from '@mantine/core';
 import Head from 'next/head';
 import LayoutDefault from '../components/LayoutDefault';
 
-// enable to mock all api calls in development server
-// if (process.env.NEXT_PUBLIC_API_MOCKING === 'enabled') {
-//   require('../mocks');
-// }
+// enable by running npm run start:msw
+if (process.env.NEXT_PUBLIC_API_MOCKING === 'enabled') {
+  require('../mocks');
+}
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
