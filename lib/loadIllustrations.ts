@@ -3,32 +3,31 @@ import { NextApiRequest } from 'next';
 import { ddbDocClient } from './ddbDocClient';
 
 function isString(data: any): data is string {
-  return typeof data === 'string';
+  return typeof data !== 'undefined' && data && typeof data === 'string';
 }
 
-export const loadByKeyword = async (req: NextApiRequest) => {
-  const startKey =
-    'lastItem' in req.query && isString(req.query.lastItem)
-      ? JSON.parse(decodeURIComponent(req.query.lastItem))
-      : undefined;
-  const keyword =
-    'keyword' in req.query && isString(req.query.keyword)
-      ? req.query.keyword
-      : '';
-  const pageSize =
-    'pageSize' in req.query && isString(req.query.pageSize)
-      ? Number(req.query.pageSize)
-      : 20;
+type NextAPIGeneralArg = string | string[] | undefined | null;
+
+export const loadByKeyword = async (
+  lastItem: NextAPIGeneralArg,
+  keyword: NextAPIGeneralArg,
+  pageSize: NextAPIGeneralArg
+) => {
+  const startKey = isString(lastItem)
+    ? JSON.parse(decodeURIComponent(lastItem))
+    : undefined;
+  const key = isString(keyword) ? keyword : '';
+  const limitSize = isString(pageSize) ? Number(pageSize) : 20;
 
   try {
     const params = {
       TableName: process.env.TABLE_NAME,
-      Limit: pageSize,
+      Limit: limitSize,
       IndexName: 'Inverted-Index',
       KeyConditionExpression:
         'SK = :keyword and begins_with(PK, :sortKeyPrefix)',
       ExpressionAttributeValues: {
-        ':keyword': `Keyword#${keyword}`,
+        ':keyword': `Keyword#${key}`,
         ':sortKeyPrefix': 'Illustration#',
       },
       ExclusiveStartKey: startKey,

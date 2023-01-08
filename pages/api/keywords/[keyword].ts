@@ -7,7 +7,11 @@ export default async function handler(
 ) {
   if (req.method === 'GET') {
     try {
-      const result = await loadByKeyword(req);
+      const result = await loadByKeyword(
+        req.query.lastItem,
+        req.query.keyword,
+        req.query.pageSize
+      );
       if (result && 'Items' in result) {
         return res
           .status(200)
