@@ -6,6 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "start:msw": "NEXT_PUBLIC_API_MOCKING=enabled next start",
     "lint": "next lint",
     "cypress": "cypress open",
     "test": "jest --watch",
