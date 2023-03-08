@@ -24,7 +24,6 @@ export default function App({ Component, pageProps }: AppProps) {
         withGlobalStyles
         withNormalizeCSS
         theme={{
-          /** Put your mantine theme override here */
           colorScheme: 'light',
           headings: {
             fontWeight: 300,
