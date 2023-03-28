@@ -14,7 +14,10 @@ export interface IllustrationMeta extends Document {
 
 export interface IllustrationKeyword extends Document {
   rank: number;
+  date: string;
   count: number;
+  image: string;
+  link: string;
 }
 
 export interface IllustrationEntity extends Document {

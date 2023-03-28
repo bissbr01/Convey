@@ -1,9 +1,9 @@
-import { Button, Group, Loader } from '@mantine/core';
+import { Group } from '@mantine/core';
 import useSWRInfinite, { SWRInfiniteKeyLoader } from 'swr/infinite';
 import { IllustrationMeta } from '../types/types';
 import Portrait from './Portrait';
 import { useEffect, useRef, useState } from 'react';
-import { TransactGetCommand } from '@aws-sdk/lib-dynamodb';
+import LoadingCircle from './LoadingCircle';
 
 interface PortraitsProps {
   keyword: string;
@@ -72,7 +72,12 @@ export default function Portraits({ keyword }: PortraitsProps) {
   }, [lastElement]);
 
   if (error) return <div>Failed to load</div>;
-  if (!illustrationRequests) return <Loader />;
+  if (!illustrationRequests)
+    return (
+      <div data-testid="loader">
+        <LoadingCircle />
+      </div>
+    );
 
   const illustrations = illustrationRequests.reduce<IllustrationMeta[]>(
     (prev, illustrationRequest) => prev.concat(illustrationRequest.items),

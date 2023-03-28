@@ -1,34 +1,37 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Convey
+Discover compelling human interest stories to enhance your speaking or writing.
 
-## Getting Started
+![image](https://user-images.githubusercontent.com/13155120/210640514-3c3bf59b-5284-41b7-a4d8-f030375f54aa.png)
 
-First, run the development server:
+See it live at: https://illustration-finder-hony.vercel.app/
 
-```bash
-npm run dev
-# or
-yarn dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## The Problem
+If you've ever sought to publically communicate an idea, whether spoken or written, you've likely wrestled with the challenge of finding powerful stories to help you communicate your message.  Some of the most effective stories for communication are human interest stories. They sharpen and clarify your argument while at the same time engaging your audience and drawing in their attention.
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+As a communicator, I've scoured the internet for compelling human interest stories and have found that this research process takes way more time than it should.  Sites like [People]([url](https://people.com/human-interest/)) and [Humans of New York]([url](https://www.humansofnewyork.com/)) have some great stories, but they are difficult to discover since neither site has any search functionality so you are reduced to manually scrolling and hoping the title connects with the principle you want to illustrate.  We can do better!
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+Convey seeks to solve this problem.  Using Python scraping and natural language processing tools, Convey has indexed and categorized the +7,000 human interest stories from [Humans of New York]([url](https://www.humansofnewyork.com/)).  With Convey, you enter a keyword you want to illustrate and it provides relevant stories ranked by % match.  [Give it a try!]([url](https://illustration-finder-hony.vercel.app/))
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+## Architecture
+Convey is a Next.js responsive web application with the frontend and backend api hosted together on [Vercel]([url](https://vercel.com/)).  The backend api uses the AWS DyanmoDB SDK to query a single DynamoDB table with an inverted index allowing millisecond queries by keyword or illustration. 
 
-## Learn More
+![image](https://user-images.githubusercontent.com/13155120/210637141-021f7c3b-89fc-49d7-8cbb-d47ce817c6b1.png)
 
-To learn more about Next.js, take a look at the following resources:
+## Setup
+Covney is built on top of the (Create Next App framework)[https://nextjs.org/docs/api-reference/create-next-app].  Fork this repo and then install dependencies with `npm install`.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Run locally in development with `npm run dev`.  
+Build for production with `npm run build`.  
+Run with `npm start`.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+You will need to configure your own DynamoDB NoSQL database and supply the following enviornment variables before running:
 
-## Deploy on Vercel
+    ACCESS_KEY=
+    SECRET_KEY=
+    REGION=
+    TABLE_NAME=
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+

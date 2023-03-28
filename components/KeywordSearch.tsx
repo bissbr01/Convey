@@ -2,7 +2,7 @@ import { Group } from '@mantine/core';
 import { Dispatch, SetStateAction, useState } from 'react';
 import { KeywordAndWeight } from '../types/types';
 import Keywords from './Keywords';
-import { SearchBar } from './SearchBar';
+import SearchBar from './SearchBar';
 import keywordsReduced from '../public/keywords/keywords_w_weights_reduced.json';
 
 interface KeywordSearchProps {

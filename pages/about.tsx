@@ -32,7 +32,7 @@ export default function About() {
           stories to enhance their speaking and writing.
         </Text>
         <Title order={2} mt="lg">
-          The Problem:
+          The Problem
         </Title>
         <Text className={classes.text}>
           If you&apos;ve ever sought to publically communicate an idea, whether
