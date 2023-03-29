@@ -4,6 +4,8 @@ import { SigmaContainer } from '@react-sigma/core';
 import { useWorkerLayoutForceAtlas2 } from '@react-sigma/layout-forceatlas2';
 
 import { Graph } from './Graph';
+import { ActionIcon, Button } from '@mantine/core';
+import { IconPlayerPause, IconPlayerPlay } from '@tabler/icons';
 
 export function LayoutFA2() {
   const RenderForceAtlas2: React.FC = () => {
@@ -14,6 +16,9 @@ export function LayoutFA2() {
     useEffect(() => {
       // start FA2
       start();
+
+      setTimeout(() => kill(), 15000);
+
       return () => {
         // Kill FA2 on unmount
         kill();

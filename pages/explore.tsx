@@ -8,7 +8,7 @@ export default function Explore() {
   if (!inBrowser) return <p>Not Available</p>;
 
   const DisplayGraph = dynamic(
-    () => import('../components/ForceAtlasGraph').then((mod) => mod),
+    () => import('../components/GraphController').then((mod) => mod),
     {
       ssr: false,
     }

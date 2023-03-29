@@ -30,13 +30,12 @@ export function Graph() {
     });
     loadGraph(graph);
     assignCircular();
-    console.log('positions:', positions());
   }, [loadGraph, assignCircular, positions]);
 
   useEffect(() => {
     registerEvents({
-      enterNode: (event) => console.log(event.node),
-      leaveNode: (event) => console.log('leaveNode', event.node),
+      enterNode: (event) => setHoveredNode(event.node),
+      leaveNode: () => setHoveredNode(null),
     });
   }, [registerEvents]);
 
