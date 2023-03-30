@@ -11,7 +11,7 @@ import { Graph } from './Graph';
 
 export default function ControlContainer() {
   return (
-    <SigmaContainer style={{ height: '80vh' }}>
+    <SigmaContainer style={{ height: '65vh' }}>
       <Graph />
       <ControlsContainer position={'bottom-right'}>
         <ZoomControl />
