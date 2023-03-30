@@ -11,6 +11,7 @@ import {
 import { Loader } from '@mantine/core';
 import { useLayoutCircular } from '@react-sigma/layout-circular';
 import graphData from '../public/json/graphology_illustrations_keywords_reduced.json';
+import { SigmaNodeEventPayload } from 'sigma/sigma';
 
 export function Graph() {
   const registerEvents = useRegisterEvents();
@@ -36,8 +37,15 @@ export function Graph() {
     registerEvents({
       enterNode: (event) => setHoveredNode(event.node),
       leaveNode: () => setHoveredNode(null),
+      doubleClickNode: (event) => {
+        const graph = sigma.getGraph();
+        const attributes = graph.getNodeAttributes(event.node);
+        if (attributes.element === 'illustration') {
+          window.location.href = attributes.url;
+        }
+      },
     });
-  }, [registerEvents]);
+  }, [registerEvents, sigma]);
 
   useEffect(() => {
     setSettings({
@@ -47,7 +55,6 @@ export function Graph() {
           ...data,
           highlighted: data.highlighted || false,
         };
-
         if (hoveredNode) {
           if (
             node === hoveredNode ||

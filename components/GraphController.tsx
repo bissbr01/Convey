@@ -16,7 +16,10 @@ export default function ControlContainer() {
       <ControlsContainer position={'bottom-right'}>
         <ZoomControl />
         <FullScreenControl />
-        <LayoutForceAtlas2Control settings={{ settings: { slowDown: 10 } }} />
+        <LayoutForceAtlas2Control
+          settings={{ settings: { slowDown: 10 } }}
+          autoRunFor={3000}
+        />
       </ControlsContainer>
       <ControlsContainer position={'top-right'}>
         <SearchControl style={{ width: '200px' }} />
