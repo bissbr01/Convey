@@ -14,6 +14,7 @@ import { useDisclosure } from '@mantine/hooks';
 import AppLogo from '/logo.png';
 import Image from 'next/image';
 import Link from 'next/link';
+import ActiveLink from './ActiveLink';
 
 const HEADER_HEIGHT = 60;
 
@@ -100,7 +101,7 @@ const useStyles = createStyles((theme) => ({
 export default function AppBar() {
   const links = [
     { link: '/', label: 'Search' },
-    // { link: '/explore', label: 'Explore' },
+    { link: '/explore', label: 'Explore' },
     { link: '/about', label: 'About' },
   ];
   const [opened, { toggle, close }] = useDisclosure(false);
@@ -108,19 +109,14 @@ export default function AppBar() {
   const { classes, cx } = useStyles();
 
   const items = links.map((link) => (
-    <Link
+    <ActiveLink
       key={link.label}
       href={link.link}
-      className={cx(classes.link, {
-        [classes.linkActive]: active === link.link,
-      })}
-      onClick={(event) => {
-        setActive(link.link);
-        close();
-      }}
+      className={classes.link}
+      activeClassName={classes.linkActive}
     >
       {link.label}
-    </Link>
+    </ActiveLink>
   ));
 
   return (
