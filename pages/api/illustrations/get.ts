@@ -8,18 +8,21 @@ export default async function handler(
 ) {
   if (req.method === 'GET') {
     try {
-      const { Items } = await ddbDocClient.send(
-        new QueryCommand({
+      let snippet = req.query.snippet as string;
+      snippet = decodeURIComponent(snippet);
+      snippet.replace('\\\\', '\\');
+      console.log(req.query);
+
+      const { Item } = await ddbDocClient.send(
+        new GetCommand({
           TableName: process.env.TABLE_NAME,
-          KeyConditionExpression:
-            'PK = :PK and begins_with(SK, :sortKeyPrefix)',
-          ExpressionAttributeValues: {
-            ':PK': `Illustration#${req.query.snippet}`,
-            ':sortKeyPrefix': 'Meta#',
+          Key: {
+            primaryKey: `Illustration#${snippet}`,
+            sortKey: `Meta#${req.query.source}`,
           },
         })
       );
-      return res.status(200).json(Items);
+      return res.status(200).json(Item);
     } catch (error) {
       console.log(error);
       res.status(400).json(error);
