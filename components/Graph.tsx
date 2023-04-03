@@ -12,6 +12,7 @@ import { Loader } from '@mantine/core';
 import { useLayoutCircular } from '@react-sigma/layout-circular';
 import graphData from '../public/json/graphology_illustrations_keywords_reduced.json';
 import { SigmaNodeEventPayload } from 'sigma/sigma';
+import { useRouter } from 'next/router';
 
 export function Graph() {
   const registerEvents = useRegisterEvents();
@@ -20,12 +21,12 @@ export function Graph() {
   const [hoveredNode, setHoveredNode] = useState<string | null>(null);
   const { positions, assign: assignCircular } = useLayoutCircular();
   const setSettings = useSetSettings();
+  const router = useRouter();
 
   useEffect(() => {
     const graph = new UndirectedGraph();
     graph.import(graphData);
     graph.nodes().forEach((node, i) => {
-      const angle = (i * 2 * Math.PI) / graph.order;
       graph.setNodeAttribute(node, 'x', 0);
       graph.setNodeAttribute(node, 'y', 0);
     });
@@ -40,12 +41,13 @@ export function Graph() {
       doubleClickNode: (event) => {
         const graph = sigma.getGraph();
         const attributes = graph.getNodeAttributes(event.node);
+        const { snippet, link } = attributes;
         if (attributes.element === 'illustration') {
-          window.location.href = attributes.url;
+          router.push(`/story?snippet=${snippet}&source=${link}`);
         }
       },
     });
-  }, [registerEvents, sigma]);
+  }, [registerEvents, router, sigma]);
 
   useEffect(() => {
     setSettings({
