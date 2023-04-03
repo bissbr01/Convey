@@ -2,6 +2,15 @@ import { GetCommand, QueryCommand } from '@aws-sdk/lib-dynamodb';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { ddbDocClient } from '../../../lib/ddbDocClient';
 
+export interface IllustrationGetResponse {
+  PK: string;
+  SK: string;
+  date: string;
+  image: string;
+  keywords: Set<string>;
+  text: string;
+}
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
@@ -10,15 +19,15 @@ export default async function handler(
     try {
       let snippet = req.query.snippet as string;
       snippet = decodeURIComponent(snippet);
-      snippet.replace('\\\\', '\\');
+      // snippet.replace('\\\\', '\\');
       console.log(req.query);
 
       const { Item } = await ddbDocClient.send(
         new GetCommand({
           TableName: process.env.TABLE_NAME,
           Key: {
-            primaryKey: `Illustration#${snippet}`,
-            sortKey: `Meta#${req.query.source}`,
+            PK: `Illustration#${snippet}`,
+            SK: `Meta#${req.query.source}`,
           },
         })
       );
