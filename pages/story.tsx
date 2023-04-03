@@ -52,7 +52,7 @@ export default function Story() {
           <Group position="apart" mt="md" mb="xs">
             <Text weight={500}>{data.date}</Text>
           </Group>
-          <Text size="sm">{data.text}</Text>
+          <Text size="md">{data.text}</Text>
           <Button
             component="a"
             href={'https://' + data.SK.slice(13)}
