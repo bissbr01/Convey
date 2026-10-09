@@ -12,7 +12,7 @@ import { Loader } from '@mantine/core';
 import { useLayoutCircular } from '@react-sigma/layout-circular';
 import graphData from '../public/json/graphology_illustrations_keywords_reduced.json';
 import { SigmaNodeEventPayload } from 'sigma/sigma';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 
 export function Graph() {
   const registerEvents = useRegisterEvents();
@@ -43,7 +43,11 @@ export function Graph() {
         const attributes = graph.getNodeAttributes(event.node);
         const { snippet, link } = attributes;
         if (attributes.element === 'illustration') {
-          router.push(`/story?snippet=${snippet}&source=${link}`);
+          const params = new URLSearchParams({
+            snippet,
+            source: link,
+          });
+          router.push(`/story?${params.toString()}`);
         }
       },
     });

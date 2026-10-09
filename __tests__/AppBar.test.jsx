@@ -4,9 +4,9 @@ import userEvent from '@testing-library/user-event';
 import mockRouter from 'next-router-mock';
 import AppBar from '../components/AppBar';
 
-// ActiveLink (rendered inside AppBar) calls useRouter(); mock it so the
-// component renders under jsdom instead of throwing "NextRouter was not mounted".
-jest.mock('next/router', () => require('next-router-mock'));
+// ActiveLink (rendered inside AppBar) calls useRouter() from next/compat/router.
+// Mock that module so the component renders under jsdom.
+jest.mock('next/compat/router', () => require('next-router-mock'));
 
 describe('AppBar.tsx', () => {
   const links = [

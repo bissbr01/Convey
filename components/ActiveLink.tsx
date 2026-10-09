@@ -1,4 +1,4 @@
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/compat/router';
 import Link, { LinkProps } from 'next/link';
 import React, { PropsWithChildren, useState, useEffect } from 'react';
 
@@ -13,12 +13,14 @@ const ActiveLink = ({
   className,
   ...props
 }: PropsWithChildren<ActiveLinkProps>) => {
-  const { asPath, isReady } = useRouter();
+  const router = useRouter();
+  const asPath = router?.asPath;
+  const isReady = router?.isReady;
   const [computedClassName, setComputedClassName] = useState(className);
 
   useEffect(() => {
-    // Check if the router fields are updated client-side
-    if (isReady) {
+    // next/compat/router is null on app routes: the Pages Router is not mounted.
+    if (isReady && asPath != null) {
       // Dynamic route will be matched via props.as
       // Static route will be matched via props.href
       const linkPathname = new URL(

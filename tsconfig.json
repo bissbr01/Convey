@@ -15,7 +15,12 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "react-jsx",
-    "incremental": true
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
   },
   "types": ["node", "jest"],
   "include": [
@@ -25,7 +30,9 @@
     "./jest.config.js,",
     "./jestSetup.ts",
     "__tests__/Keywords.test.jsx",
-    "__tests__/AppBar.test.jsx"
+    "__tests__/AppBar.test.jsx",
+    ".next/types/**/*.ts",
+    ".next/dev/types/**/*.ts"
   ],
   "exclude": ["node_modules"]
 }

@@ -1,19 +1,13 @@
+'use client';
+
 import { Container, Group, Kbd, Stack, Text, Title } from '@mantine/core';
 import dynamic from 'next/dynamic';
-import '@react-sigma/core/lib/react-sigma.min.css';
 import Link from 'next/link';
+import '@react-sigma/core/lib/react-sigma.min.css';
 
-export default function Explore() {
-  const inBrowser = () => typeof window !== 'undefined';
+const DisplayGraph = dynamic(() => import('./GraphController'), { ssr: false });
 
-  if (!inBrowser) return <p>Not Available</p>;
-
-  const DisplayGraph = dynamic(
-    () => import('../components/GraphController').then((mod) => mod),
-    {
-      ssr: false,
-    }
-  );
+export function ExploreClient() {
   return (
     <>
       <DisplayGraph />
