@@ -52,6 +52,7 @@ export default function Keywords({
               <Chip
                 key={`${kWord}${count}`}
                 value={kWord}
+                variant="outline"
                 classNames={{ label: labelClass, checkIcon: classes.checkIcon }}
               >
                 {kWord}: {count}

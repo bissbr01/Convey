@@ -1,4 +1,5 @@
-.label {
+/* Doubled class matches Mantine's filled label specificity (0, 2, 0). */
+.label.label {
   background-color: var(--mantine-color-white);
   border: 1px solid var(--mantine-color-gray-4);
 
@@ -8,10 +9,10 @@
   }
 }
 
-.labelFiltered {
+.label.labelFiltered {
   border-color: var(--mantine-color-blue-3);
 }
 
 .checkIcon {
-  filter: brightness(0.7) saturate(100%);
+  filter: brightness(0.7);
 }
