@@ -1,16 +1,10 @@
-import { ActionIcon, Chip, Spoiler, Stack } from '@mantine/core';
+import { ActionIcon, Chip, Group, Spoiler, Stack } from '@mantine/core';
 import { IconChevronDown, IconChevronUp } from '@tabler/icons';
-import {
-  Dispatch,
-  MouseEvent,
-  SetStateAction,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react';
 import keywordsReduced from '../public/keywords/keywords_w_weights_reduced.json';
 import commonKeywords from '../public/keywords/keywords_w_weights_common.json';
 import { KeywordAndWeight } from '../types/types';
+import classes from './Keywords.module.css';
 
 interface KeywordProps {
   keyword: string;
@@ -30,10 +24,6 @@ export default function Keywords({
     spoilerControlRef.current?.click();
   }, [opened]);
 
-  const handleClick = (e: MouseEvent<HTMLInputElement>) => {
-    setKeyword(e.currentTarget.value);
-  };
-
   const isKeywordSelection = () =>
     keywords &&
     keywords.length !== keywordsReduced.length &&
@@ -44,6 +34,10 @@ export default function Keywords({
     return commonKeywords as KeywordAndWeight[];
   };
 
+  const labelClass = isKeywordSelection()
+    ? `${classes.label} ${classes.labelFiltered}`
+    : classes.label;
+
   return (
     <>
       <Spoiler
@@ -52,32 +46,18 @@ export default function Keywords({
         showLabel=""
         hideLabel=""
       >
-        <Chip.Group position="center" mt="md" sx={{ minHeight: 70 }}>
-          {selectKeywords().map(([count, kWord]) => (
-            <Chip
-              key={`${kWord}${count}`}
-              value={kWord}
-              onClick={handleClick}
-              checked={kWord === keyword}
-              sx={(theme) => ({
-                '.mantine-Chip-label': {
-                  backgroundColor: theme.white,
-                  border: isKeywordSelection()
-                    ? `1px solid ${theme.colors.blue[3]}`
-                    : `1px solid ${theme.colors.gray[4]}`,
-                  '&[data-checked="true"]': {
-                    backgroundColor: theme.colors.blue[4],
-                    color: theme.white,
-                  },
-                  '.mantine-Chip-checkIcon': {
-                    filter: 'brightness(.7) saturate(100%)',
-                  },
-                },
-              })}
-            >
-              {kWord}: {count}
-            </Chip>
-          ))}
+        <Chip.Group value={keyword} onChange={setKeyword}>
+          <Group justify="center" mt="md" style={{ minHeight: 70 }}>
+            {selectKeywords().map(([count, kWord]) => (
+              <Chip
+                key={`${kWord}${count}`}
+                value={kWord}
+                classNames={{ label: labelClass, checkIcon: classes.checkIcon }}
+              >
+                {kWord}: {count}
+              </Chip>
+            ))}
+          </Group>
         </Chip.Group>
       </Spoiler>
       <Stack align="center">

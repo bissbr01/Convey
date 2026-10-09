@@ -1,3 +1,4 @@
+import { MantineProvider } from '@mantine/core';
 import { render, screen } from '@testing-library/react';
 import Keywords from '../components/Keywords';
 
@@ -18,7 +19,9 @@ describe('Keywords.tsx', () => {
 
   it('renders content', () => {
     render(
-      <Keywords keyword={keyword} keywords={keywords} setKeyword={setKeyword} />
+      <MantineProvider>
+        <Keywords keyword={keyword} keywords={keywords} setKeyword={setKeyword} />
+      </MantineProvider>
     );
     keywords.map((keyword) => {
       const rxKeyword = new RegExp(keyword[1] + ': ' + keyword[0]);

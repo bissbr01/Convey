@@ -1,3 +1,4 @@
+import { MantineProvider } from '@mantine/core';
 import {
   render,
   screen,
@@ -18,9 +19,11 @@ describe('Portraits.tsx', () => {
 
   it('renders initial 20 portraits', async () => {
     render(
-      <SWRConfig value={{ dedupingInterval: 0, provider: () => new Map() }}>
-        <Portraits keyword="college" />
-      </SWRConfig>
+      <MantineProvider>
+        <SWRConfig value={{ dedupingInterval: 0, provider: () => new Map() }}>
+          <Portraits keyword="college" />
+        </SWRConfig>
+      </MantineProvider>
     );
 
     await waitForElementToBeRemoved(() => screen.getByTestId('loader'));
@@ -30,9 +33,11 @@ describe('Portraits.tsx', () => {
   });
   it('returns error if given invalid keyword', async () => {
     render(
-      <SWRConfig value={{ dedupingInterval: 0, provider: () => new Map() }}>
-        <Portraits keyword="invalid" />
-      </SWRConfig>
+      <MantineProvider>
+        <SWRConfig value={{ dedupingInterval: 0, provider: () => new Map() }}>
+          <Portraits keyword="invalid" />
+        </SWRConfig>
+      </MantineProvider>
     );
     await waitForElementToBeRemoved(() => screen.getByTestId('loader'));
     expect(screen.getByText(/Failed to load/)).toBeInTheDocument();

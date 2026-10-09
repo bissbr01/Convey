@@ -20,7 +20,7 @@ export default function KeywordSearch({
 
   return (
     <>
-      <Group position="center">
+      <Group justify="center">
         <SearchBar setKeywords={setKeywords} keywords={keywords} />
       </Group>
       <Keywords keyword={keyword} setKeyword={setKeyword} keywords={keywords} />

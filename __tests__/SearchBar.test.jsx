@@ -1,3 +1,4 @@
+import { MantineProvider } from '@mantine/core';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import SearchBar from '../components/SearchBar';
@@ -17,12 +18,20 @@ describe('SearchBar.tsx', () => {
   const setKeywords = jest.fn();
 
   it('renders content', () => {
-    render(<SearchBar keywords={keywords} setKeywords={setKeywords} />);
+    render(
+      <MantineProvider>
+        <SearchBar keywords={keywords} setKeywords={setKeywords} />
+      </MantineProvider>
+    );
     screen.getByPlaceholderText('Filter keywords');
   });
 
   it('filters keywords on input', async () => {
-    render(<SearchBar keywords={keywords} setKeywords={setKeywords} />);
+    render(
+      <MantineProvider>
+        <SearchBar keywords={keywords} setKeywords={setKeywords} />
+      </MantineProvider>
+    );
     const user = userEvent.setup();
     const input = screen.getByPlaceholderText('Filter keywords');
     const keywordInput = 'schools';

@@ -1,3 +1,4 @@
+import { MantineProvider } from '@mantine/core';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import mockRouter from 'next-router-mock';
@@ -19,7 +20,11 @@ describe('AppBar.tsx', () => {
   });
 
   it('renders a nav link for each destination', () => {
-    render(<AppBar />);
+    render(
+      <MantineProvider>
+        <AppBar />
+      </MantineProvider>
+    );
     links.forEach(({ link, label }) => {
       expect(screen.getByRole('link', { name: label })).toHaveAttribute(
         'href',
@@ -30,7 +35,11 @@ describe('AppBar.tsx', () => {
 
   it('marks only the link for the current route as active', () => {
     mockRouter.setCurrentUrl('/about');
-    render(<AppBar />);
+    render(
+      <MantineProvider>
+        <AppBar />
+      </MantineProvider>
+    );
 
     // ActiveLink appends activeClassName to the matching route's link, so the
     // active link's className differs from a non-matching one.

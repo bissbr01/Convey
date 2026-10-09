@@ -1,6 +1,7 @@
+import '@mantine/core/styles.css';
 import '../styles/globals.css';
 import type { AppProps } from 'next/app';
-import { MantineProvider } from '@mantine/core';
+import { createTheme, MantineProvider } from '@mantine/core';
 import Head from 'next/head';
 import LayoutDefault from '../components/LayoutDefault';
 
@@ -8,6 +9,13 @@ import LayoutDefault from '../components/LayoutDefault';
 if (process.env.NEXT_PUBLIC_API_MOCKING === 'enabled') {
   require('../mocks');
 }
+
+const theme = createTheme({
+  headings: {
+    fontWeight: '300',
+  },
+  defaultRadius: 'sm',
+});
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
@@ -20,16 +28,7 @@ export default function App({ Component, pageProps }: AppProps) {
         />
         <link rel="icon" href="/favicon/favicon.ico" />
       </Head>
-      <MantineProvider
-        withGlobalStyles
-        withNormalizeCSS
-        theme={{
-          colorScheme: 'light',
-          headings: {
-            fontWeight: 300,
-          },
-        }}
-      >
+      <MantineProvider theme={theme} defaultColorScheme="light">
         <LayoutDefault>
           <Component {...pageProps} />
         </LayoutDefault>

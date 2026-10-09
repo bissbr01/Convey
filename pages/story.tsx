@@ -60,8 +60,8 @@ export default function Story() {
               m="lg"
             />
           </Card.Section>
-          <Group position="apart" mt="md" mb="xs">
-            <Text weight={500}>{data.date}</Text>
+          <Group justify="space-between" mt="md" mb="xs">
+            <Text fw={500}>{data.date}</Text>
           </Group>
           <Text size="md">{data.text}</Text>
           <Button

@@ -1,0 +1,16 @@
+.container {
+  display: box;
+  justify-content: center;
+  align-content: center;
+  height: 100vh;
+  width: 100vw;
+}
+
+.loader {
+  --loader-color: var(--mantine-color-blue-4);
+  color: var(--mantine-color-blue-4);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}

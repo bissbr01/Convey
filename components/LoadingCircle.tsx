@@ -1,28 +1,10 @@
-import { createStyles, Loader } from '@mantine/core';
-
-const useStyles = createStyles((theme) => ({
-  container: {
-    display: 'box',
-    justifyContent: 'center',
-    alignContent: 'center',
-    height: '100vh',
-    width: '100vw',
-  },
-
-  loader: {
-    color: theme.colors.blue[4],
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-  },
-}));
+import { Loader } from '@mantine/core';
+import classes from './LoadingCircle.module.css';
 
 export default function LoadingCircle() {
-  const { classes } = useStyles();
   return (
     <div className={classes.container}>
-      <Loader className={classes.loader} />
+      <Loader className={classes.loader} color="blue.4" />
     </div>
   );
 }

@@ -30,17 +30,13 @@ describe('Home Page', () => {
   });
 
   it('displays 20 stories + infinite scroll div from the default "college" keyword', () => {
-    cy.get('main > .mantine-Group-root')
-      .children('div')
-      .should('have.length', 21);
+    cy.get('[data-testid=portraits]').children('div').should('have.length', 21);
   });
 
   it('displays 18 stories + infinite scroll div from the "hope" keyword', () => {
     cy.get('input[type="text"]').type('hope');
     cy.contains('hope: 18').click();
-    cy.get('main > .mantine-Group-root')
-      .children('div')
-      .should('have.length', 19);
+    cy.get('[data-testid=portraits]').children('div').should('have.length', 19);
   });
 });
 

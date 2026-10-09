@@ -1,0 +1,31 @@
+.tile {
+  width: 250px;
+}
+
+.background {
+  width: 250px;
+  height: 250px;
+
+  &:hover > div {
+    background-color: rgba(0, 0, 0, 0.5);
+
+    .overlay {
+      display: block;
+      color: var(--mantine-color-white);
+    }
+  }
+}
+
+.frame {
+  width: 250px;
+  height: 250px;
+}
+
+.text {
+  width: 250px;
+  height: 250px;
+
+  .overlay {
+    display: none;
+  }
+}

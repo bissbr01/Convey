@@ -1,8 +1,8 @@
 /** @type {import('next').NextConfig} */
 
 // Security headers applied to every route. Tuned for this app's needs:
-// images load from /public, Mantine/emotion inject runtime <style> tags, and
-// the app makes same-origin fetches only.
+// images load from /public, Mantine style props and Next.js emit inline
+// styles, and the app makes same-origin fetches only.
 const ContentSecurityPolicy = [
   "default-src 'self'",
   "base-uri 'self'",
@@ -11,7 +11,7 @@ const ContentSecurityPolicy = [
   // Next.js injects inline bootstrap scripts; 'unsafe-inline' is required for the
   // pages-router runtime. Avoid 'unsafe-eval' so eval-based payloads are blocked.
   "script-src 'self' 'unsafe-inline'",
-  // Emotion (Mantine) injects styles at runtime, which needs 'unsafe-inline'.
+  // Mantine style props and Next.js emit inline styles, which needs 'unsafe-inline'.
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: blob:",
   "font-src 'self' data:",

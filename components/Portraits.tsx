@@ -86,7 +86,7 @@ export default function Portraits({ keyword }: PortraitsProps) {
 
   return (
     <>
-      <Group position="center" spacing="md">
+      <Group justify="center" gap="md" data-testid="portraits">
         {illustrations.map((meta, i) => (
           <Portrait key={meta.link} meta={meta} />
         ))}

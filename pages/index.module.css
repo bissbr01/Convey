@@ -1,0 +1,7 @@
+.section {
+  background-color: var(--mantine-color-white);
+  padding: 1rem 0;
+  background: var(--mantine-color-gray-0);
+  box-shadow: 0px 0px 1px black;
+  margin-bottom: 1rem;
+}

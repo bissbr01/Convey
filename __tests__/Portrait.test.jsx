@@ -1,3 +1,4 @@
+import { MantineProvider } from '@mantine/core';
 import { render, screen, waitFor } from '@testing-library/react';
 import Portrait from '../components/Portrait';
 import userEvent from '@testing-library/user-event';
@@ -16,7 +17,11 @@ describe('Portrait.tsx', () => {
   };
 
   it('renders content', async () => {
-    render(<Portrait meta={meta} />);
+    render(
+      <MantineProvider>
+        <Portrait meta={meta} />
+      </MantineProvider>
+    );
     const user = userEvent.setup();
 
     const imgDiv = screen.getByRole('link');

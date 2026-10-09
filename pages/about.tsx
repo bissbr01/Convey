@@ -1,26 +1,7 @@
-import {
-  Anchor,
-  Blockquote,
-  Container,
-  createStyles,
-  Text,
-  Title,
-} from '@mantine/core';
-import { NextLink } from '@mantine/next';
-
-const useStyles = createStyles((theme) => ({
-  text: {
-    paddingTop: '1rem',
-  },
-  quote: {
-    paddingTop: '1rem',
-    fontSize: theme.fontSizes.md,
-    fontStyle: 'italic',
-  },
-}));
+import { Anchor, Blockquote, Container, Text, Title } from '@mantine/core';
+import classes from './about.module.css';
 
 export default function About() {
-  const { classes } = useStyles();
   return (
     <>
       <Container>

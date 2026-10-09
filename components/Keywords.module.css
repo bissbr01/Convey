@@ -1,0 +1,17 @@
+.label {
+  background-color: var(--mantine-color-white);
+  border: 1px solid var(--mantine-color-gray-4);
+
+  &[data-checked] {
+    background-color: var(--mantine-color-blue-4);
+    color: var(--mantine-color-white);
+  }
+}
+
+.labelFiltered {
+  border-color: var(--mantine-color-blue-3);
+}
+
+.checkIcon {
+  filter: brightness(0.7) saturate(100%);
+}

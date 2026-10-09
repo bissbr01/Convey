@@ -1,0 +1,8 @@
+.input {
+  width: 100%;
+  padding: var(--mantine-spacing-md);
+
+  @mixin larger-than $mantine-breakpoint-sm {
+    width: 500px;
+  }
+}

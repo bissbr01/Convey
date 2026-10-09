@@ -1,0 +1,9 @@
+.text {
+  padding-top: 1rem;
+}
+
+.quote {
+  padding-top: 1rem;
+  font-size: var(--mantine-font-size-md);
+  font-style: italic;
+}
