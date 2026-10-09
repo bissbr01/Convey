@@ -79,6 +79,12 @@ export default function Portraits({ keyword }: PortraitsProps) {
       </div>
     );
 
+  // A failed keywords response is still JSON, so SWR does not set `error`.
+  // `concat(undefined)` would insert a hole and the next render would throw.
+  if (illustrationRequests.some((page) => !Array.isArray(page?.items))) {
+    return <div>Failed to load</div>;
+  }
+
   const illustrations = illustrationRequests.reduce<IllustrationMeta[]>(
     (prev, illustrationRequest) => prev.concat(illustrationRequest.items),
     []
