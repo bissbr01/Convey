@@ -8,11 +8,13 @@
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
     "esModuleInterop": true,
-    "module": "esnext",
-    "moduleResolution": "Node",
+    // commonjs keeps classic node resolution. Next 16 rewrites other module
+    // settings to bundler, which ignores typings when exports point only at JS.
+    "module": "commonjs",
+    "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "jsx": "preserve",
+    "jsx": "react-jsx",
     "incremental": true
   },
   "types": ["node", "jest"],
@@ -23,7 +25,6 @@
     "./jest.config.js,",
     "./jestSetup.ts",
     "__tests__/Keywords.test.jsx",
-    "__tests__/Footer.test.jsx",
     "__tests__/AppBar.test.jsx"
   ],
   "exclude": ["node_modules"]
