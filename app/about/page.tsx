@@ -1,6 +1,8 @@
 import { Anchor, Blockquote, Container, Text, Title } from '@mantine/core';
 import classes from './about.module.css';
 
+export const ensureStatic = 'navigation';
+
 export default function About() {
   return (
     <>

@@ -1,10 +1,13 @@
+import { cacheLife, cacheTag } from 'next/cache';
 import type { KeywordPage } from '../types/types';
-
-export const PAGE_SIZE = 20;
+import { PAGE_SIZE } from './pageSize';
 
 // First page only. A cursor here would cache one caller's slice for everyone.
-// Loaded here so a client import of PAGE_SIZE does not construct the Dynamo client.
+// Imported in the call so evaluating this module does not construct the Dynamo client.
 export async function loadFirstPage(keyword: string): Promise<KeywordPage> {
+  'use cache';
+  cacheLife('hours');
+  cacheTag('keyword:' + keyword);
   const { loadByKeyword } = await import('./loadIllustrations');
   const result = await loadByKeyword(undefined, keyword, String(PAGE_SIZE));
   // null before stringify. JSON.stringify drops undefined, and the client

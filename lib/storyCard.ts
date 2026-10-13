@@ -1,3 +1,4 @@
+import { cacheLife, cacheTag } from 'next/cache';
 import { GetCommand } from '@aws-sdk/lib-dynamodb';
 import { ddbDocClient } from './ddbDocClient';
 
@@ -17,6 +18,9 @@ export async function loadStoryCard(
   snippet: string,
   source: string
 ): Promise<StoryCard | null> {
+  'use cache';
+  cacheLife('hours');
+  cacheTag('illustration:' + snippet);
   let result;
   try {
     result = await ddbDocClient.send(

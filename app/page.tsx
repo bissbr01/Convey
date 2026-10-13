@@ -3,6 +3,8 @@ import { loadFirstPage } from '../lib/keywordPage';
 
 const DEFAULT_KEYWORD = 'college';
 
+export const instant = false;
+
 export default async function Page(props: PageProps<'/'>) {
   const sp = await props.searchParams;
   const raw = sp.q;

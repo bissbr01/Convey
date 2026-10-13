@@ -39,6 +39,8 @@ const securityHeaders = [
 const nextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
+  cacheComponents: true,
+  partialPrefetching: true,
   async headers() {
     return [
       {

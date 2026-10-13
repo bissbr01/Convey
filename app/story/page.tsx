@@ -9,6 +9,8 @@ import {
 import { portraitSrc } from '../../lib/imageUrl';
 import { loadStoryCard } from '../../lib/storyCard';
 
+export const instant = false;
+
 const SENTENCE = "Sorry, we couldn't load this story.";
 
 function missingStory() {
