@@ -5,7 +5,7 @@ import useSWRInfinite, {
 } from 'swr/infinite';
 import { useSWRConfig } from 'swr';
 import { IllustrationMeta, KeywordPage } from '../types/types';
-import { PAGE_SIZE } from '../lib/pageSize';
+import { PAGE_SIZE } from '../lib/keywordPage';
 import Portrait from './Portrait';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import LoadingCircle from './LoadingCircle';
