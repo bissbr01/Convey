@@ -1,106 +1,181 @@
 import { Group } from '@mantine/core';
-import useSWRInfinite, { SWRInfiniteKeyLoader } from 'swr/infinite';
-import { IllustrationMeta } from '../types/types';
+import useSWRInfinite, {
+  SWRInfiniteKeyLoader,
+  unstable_serialize,
+} from 'swr/infinite';
+import { useSWRConfig } from 'swr';
+import { IllustrationMeta, KeywordPage } from '../types/types';
+import { PAGE_SIZE } from '../lib/pageSize';
 import Portrait from './Portrait';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import LoadingCircle from './LoadingCircle';
 
 interface PortraitsProps {
   keyword: string;
+  firstPage?: KeywordPage;
 }
-const PAGE_SIZE = 20;
-const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
-export default function Portraits({ keyword }: PortraitsProps) {
-  const getKey: SWRInfiniteKeyLoader = (pageIndex, previousPageData) => {
-    if (previousPageData && typeof previousPageData.lastItem === 'undefined')
-      return;
-    if (previousPageData && previousPageData.length === 0) return null;
-    if (pageIndex === 0)
-      return `/api/keywords/${keyword}?pageSize=${PAGE_SIZE}`;
+type PageData = {
+  items: IllustrationMeta[];
+  lastItem: Record<string, unknown> | null;
+};
+
+async function fetcher(url: string): Promise<PageData> {
+  const res = await fetch(url);
+  if (!res.ok) throw new Error(`GET ${res.status}`);
+  return res.json();
+}
+
+function upsertByPk(pages: PageData[]): IllustrationMeta[] {
+  const indexByPk = new Map<string, number>();
+  const items: IllustrationMeta[] = [];
+  for (const page of pages) {
+    if (!Array.isArray(page?.items)) continue;
+    for (const item of page.items) {
+      const existing = indexByPk.get(item.PK);
+      if (existing === undefined) {
+        indexByPk.set(item.PK, items.length);
+        items.push(item);
+      } else {
+        items[existing] = item;
+      }
+    }
+  }
+  return items;
+}
+
+export default function Portraits({ keyword, firstPage }: PortraitsProps) {
+  const { mutate: seedPage } = useSWRConfig();
+  const page0Key = `/api/keywords/${keyword}?pageSize=${PAGE_SIZE}`;
+
+  const getKey: SWRInfiniteKeyLoader<PageData> = (
+    pageIndex,
+    previousPageData
+  ) => {
+    if (
+      previousPageData &&
+      (previousPageData.items.length === 0 || previousPageData.lastItem == null)
+    ) {
+      return null;
+    }
+    if (pageIndex === 0) return page0Key;
+    if (!previousPageData) return null;
     return `/api/keywords/${keyword}?pageSize=${PAGE_SIZE}&lastItem=${encodeURIComponent(
       JSON.stringify(previousPageData.lastItem)
     )}`;
   };
+
+  // fallbackData does not fill the per-page cache setSize reads. An empty
+  // $inf$ entry makes that call revalidate every page, including page 0.
+  const [seededKey, setSeededKey] = useState<string | null>(null);
+  if (firstPage && seededKey !== page0Key) {
+    setSeededKey(page0Key);
+    void seedPage(page0Key, firstPage, { revalidate: false });
+    void seedPage(unstable_serialize(getKey), [firstPage], {
+      revalidate: false,
+    });
+  }
+
   const {
     data: illustrationRequests,
     error,
     mutate,
-    size,
     setSize,
     isValidating,
-  } = useSWRInfinite<{
-    items: IllustrationMeta[];
-    lastItem: string;
-  }>(getKey, fetcher);
+  } = useSWRInfinite<PageData>(
+    getKey,
+    fetcher,
+    firstPage
+      ? {
+          fallbackData: [firstPage],
+          revalidateOnMount: false,
+          revalidateIfStale: false,
+          revalidateFirstPage: false,
+        }
+      : undefined
+  );
 
-  const prevPos = useRef(-1);
+  const intersectingRef = useRef(false);
+  const pendingRef = useRef(false);
+  const wasValidatingRef = useRef(false);
   const [lastElement, setLastElement] = useState<HTMLDivElement | null>(null);
 
-  const loadMore = (): void => {
-    if (
-      !illustrationRequests ||
-      !size ||
-      (!illustrationRequests.length && isValidating)
-    )
+  const loadMore = useCallback((): void => {
+    if (isValidating || pendingRef.current) return;
+    if (!illustrationRequests || illustrationRequests.length === 0 || error) {
       return;
-    setSize((size) => size + 1);
-  };
+    }
+    const lastPage = illustrationRequests[illustrationRequests.length - 1];
+    if (!lastPage || lastPage.items.length === 0 || lastPage.lastItem == null) {
+      return;
+    }
+    pendingRef.current = true;
+    setSize((current) => current + 1);
+  }, [error, illustrationRequests, isValidating, setSize]);
+
+  const loadMoreRef = useRef(loadMore);
+  useEffect(() => {
+    loadMoreRef.current = loadMore;
+  }, [loadMore]);
 
   useEffect(() => {
     const currentElement = lastElement;
-    const currentObserver = new IntersectionObserver(
+    if (!currentElement) return;
+    const observer = new IntersectionObserver(
       (entries) => {
-        const firstEntry = entries[0];
-        const pos = firstEntry.boundingClientRect['y'];
-        if (prevPos.current > pos || prevPos.current === -1) {
-          setTimeout(() => loadMore(), 100);
-        }
-        prevPos.current = pos;
+        const entry = entries[0];
+        if (!entry) return;
+        intersectingRef.current = entry.isIntersecting;
+        if (entry.isIntersecting) loadMoreRef.current();
       },
       { threshold: 1 }
     );
-    if (currentElement) {
-      currentObserver.observe(currentElement);
-    }
-    return (): void => {
-      if (currentElement) {
-        currentObserver.disconnect();
-      }
+    observer.observe(currentElement);
+    return () => {
+      observer.disconnect();
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [lastElement]);
 
-  if (error) return <div>Failed to load</div>;
-  if (!illustrationRequests)
+  useEffect(() => {
+    const finished = wasValidatingRef.current && !isValidating;
+    wasValidatingRef.current = isValidating;
+    if (!finished) return;
+    pendingRef.current = false;
+    if (intersectingRef.current) loadMoreRef.current();
+  }, [isValidating]);
+
+  if (error && !illustrationRequests) return <div>Failed to load</div>;
+  if (!illustrationRequests) {
     return (
       <div data-testid="loader">
         <LoadingCircle />
       </div>
     );
-
-  // A failed keywords response is still JSON, so SWR does not set `error`.
-  // `concat(undefined)` would insert a hole and the next render would throw.
-  if (illustrationRequests.some((page) => !Array.isArray(page?.items))) {
-    return <div>Failed to load</div>;
   }
 
-  const illustrations = illustrationRequests.reduce<IllustrationMeta[]>(
-    (prev, illustrationRequest) => prev.concat(illustrationRequest.items),
-    []
-  );
+  const illustrations = upsertByPk(illustrationRequests);
 
   return (
     <>
       <Group justify="center" gap="md" data-testid="portraits">
-        {illustrations.map((meta, i) => (
-          <Portrait key={meta.link} meta={meta} />
+        {illustrations.map((meta) => (
+          <Portrait key={meta.PK} meta={meta} />
         ))}
         <div
           style={{ width: 300, height: 300 }}
-          ref={(ref) => setLastElement(ref)}
+          ref={(node) => setLastElement(node)}
         />
       </Group>
+      {error ? (
+        <button
+          type="button"
+          onClick={() => {
+            void mutate();
+          }}
+        >
+          Failed to load
+        </button>
+      ) : null}
     </>
   );
 }

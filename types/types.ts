@@ -37,3 +37,8 @@ export interface IllustrationEntity extends Document {
 export type KeywordIllustrations = [IllustrationKeyword];
 
 export type KeywordAndWeight = [number, string];
+
+export interface KeywordPage {
+  items: IllustrationMeta[];
+  lastItem: Record<string, unknown> | null;
+}
