@@ -6,10 +6,8 @@ export default defineConfig([
     extends: [...nextCoreWebVitals],
   },
   {
-    // These rules are new in the Next 16 preset. The call sites are existing
-    // Pages Router code and are not part of this upgrade.
+    // ForceAtlasGraph defines a component during render.
     rules: {
-      "react-hooks/set-state-in-effect": "off",
       "react-hooks/static-components": "off",
     },
   },

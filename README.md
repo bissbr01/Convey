@@ -4,7 +4,7 @@
 
 [![CI](https://github.com/BradBissell/Convey/actions/workflows/ci.yml/badge.svg)](https://github.com/BradBissell/Convey/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](./LICENSE)
-[![Next.js](https://img.shields.io/badge/Next.js-14-black?logo=next.js)](https://nextjs.org/)
+[![Next.js](https://img.shields.io/badge/Next.js-16-black?logo=next.js)](https://nextjs.org/)
 [![Live demo](https://img.shields.io/badge/demo-live-brightgreen)](https://illustration-finder-hony.vercel.app/)
 
 **[🔎 Try it live →](https://illustration-finder-hony.vercel.app/)**
@@ -32,10 +32,10 @@ Convey solves this. Stories were scraped and run through NLP keyword extraction,
 
 | Layer | Choice |
 |-------|--------|
-| Framework | Next.js 14 (pages router), React 18, TypeScript (strict) |
-| UI | Mantine, Emotion |
-| Data fetching | SWR (incl. `useSWRInfinite`) |
-| Backend | Next.js API routes (serverless on Vercel) |
+| Framework | Next.js 16.4 (App Router), React 19.3, TypeScript (strict) |
+| UI | Mantine 9 |
+| Data fetching | SWR (incl. `useSWRInfinite`) — client cursor on a server-rendered first page. Page 0 is seeded with `useSWRConfig().mutate` before `useSWRInfinite`; SWR is not the first-page loader. |
+| Backend | Next.js route handlers (serverless on Vercel) |
 | Database | AWS DynamoDB — single-table design + Global Secondary Index |
 | Graph viz | Sigma.js + Graphology (ForceAtlas2) |
 | Testing | Jest + React Testing Library (unit), Cypress (e2e) |
@@ -50,8 +50,8 @@ flowchart TD
     User([User / Browser])
 
     subgraph Vercel["Vercel — Next.js app"]
-        Pages["Pages<br/>index · story · explore · about"]
-        API["API routes<br/>/api/keywords/[keyword]<br/>/api/illustrations/get"]
+        Routes["App Router routes<br/>/ · /story · /explore · /about"]
+        API["Route handlers<br/>/api/keywords/[keyword]<br/>/api/illustrations/get"]
     end
 
     SDK["AWS SDK<br/>DynamoDBDocumentClient"]
@@ -64,8 +64,8 @@ flowchart TD
         Scrape["Scrape Humans of New York<br/>+ NLP keyword extraction"]
     end
 
-    User -->|HTTP| Pages
-    Pages -->|fetch / SWR| API
+    User -->|HTTP| Routes
+    Routes -->|fetch / SWR| API
     API --> SDK
     SDK -->|Query / GetItem| DDB
     Scrape -. seed / load .-> DDB

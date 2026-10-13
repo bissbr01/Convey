@@ -1,12 +1,12 @@
 import { MantineProvider } from '@mantine/core';
 import { render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
-import mockRouter from 'next-router-mock';
+import { usePathname } from 'next/navigation';
 import AppBar from '../components/AppBar';
 
-// ActiveLink (rendered inside AppBar) calls useRouter() from next/compat/router.
-// Mock that module so the component renders under jsdom.
-jest.mock('next/compat/router', () => require('next-router-mock'));
+// ActiveLink reads the current pathname from next/navigation.
+jest.mock('next/navigation', () => ({
+  usePathname: jest.fn(() => '/'),
+}));
 
 describe('AppBar.tsx', () => {
   const links = [
@@ -16,7 +16,7 @@ describe('AppBar.tsx', () => {
   ];
 
   beforeEach(() => {
-    mockRouter.setCurrentUrl('/');
+    usePathname.mockReturnValue('/');
   });
 
   it('renders a nav link for each destination', () => {
@@ -34,7 +34,7 @@ describe('AppBar.tsx', () => {
   });
 
   it('marks only the link for the current route as active', () => {
-    mockRouter.setCurrentUrl('/about');
+    usePathname.mockReturnValue('/about');
     render(
       <MantineProvider>
         <AppBar />

@@ -1,6 +1,6 @@
-import { useRouter } from 'next/compat/router';
 import Link, { LinkProps } from 'next/link';
-import React, { PropsWithChildren, useState, useEffect } from 'react';
+import { usePathname } from 'next/navigation';
+import { PropsWithChildren } from 'react';
 
 type ActiveLinkProps = LinkProps & {
   className?: string;
@@ -13,42 +13,15 @@ const ActiveLink = ({
   className,
   ...props
 }: PropsWithChildren<ActiveLinkProps>) => {
-  const router = useRouter();
-  const asPath = router?.asPath;
-  const isReady = router?.isReady;
-  const [computedClassName, setComputedClassName] = useState(className);
-
-  useEffect(() => {
-    // next/compat/router is null on app routes: the Pages Router is not mounted.
-    if (isReady && asPath != null) {
-      // Dynamic route will be matched via props.as
-      // Static route will be matched via props.href
-      const linkPathname = new URL(
-        (props.as || props.href) as string,
-        location.href
-      ).pathname;
-
-      // Using URL().pathname to get rid of query and hash
-      const activePathname = new URL(asPath, location.href).pathname;
-
-      const newClassName =
-        linkPathname === activePathname
-          ? `${className} ${activeClassName}`.trim()
-          : className;
-
-      if (newClassName !== computedClassName) {
-        setComputedClassName(newClassName);
-      }
-    }
-  }, [
-    asPath,
-    isReady,
-    props.as,
-    props.href,
-    activeClassName,
-    className,
-    computedClassName,
-  ]);
+  const pathname = usePathname();
+  // `as` is the displayed path when set. Compare pathnames only: no query, no hash.
+  const target = props.as || props.href;
+  const href = typeof target === 'string' ? target : target.pathname;
+  const linkPathname = new URL(href || '/', 'http://localhost').pathname;
+  const computedClassName =
+    linkPathname === pathname
+      ? `${className ?? ''} ${activeClassName}`.trim()
+      : className;
 
   return (
     <Link className={computedClassName} {...props}>
