@@ -11,7 +11,7 @@ import { IllustrationMeta } from '../types/types';
 import useSWR from 'swr';
 import LoadingCircle from '../components/LoadingCircle';
 import { useRouter } from 'next/router';
-import { IllustrationGetResponse } from './api/illustrations/get';
+import { IllustrationGetResponse } from '../types/types';
 import { portraitSrc } from '../lib/imageUrl';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());

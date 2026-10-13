@@ -12,6 +12,15 @@ export interface IllustrationMeta extends Document {
   entities: Set<string>;
 }
 
+export interface IllustrationGetResponse {
+  PK: string;
+  SK: string;
+  date: string;
+  image: string;
+  keywords: Set<string>;
+  text: string;
+}
+
 export interface IllustrationKeyword extends Document {
   rank: number;
   date: string;

@@ -1,5 +1,4 @@
 import { QueryCommand } from '@aws-sdk/lib-dynamodb';
-import { NextApiRequest } from 'next';
 import { ddbDocClient } from './ddbDocClient';
 
 function isString(data: any): data is string {
