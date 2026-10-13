@@ -6,6 +6,7 @@ import {
   Image,
   Text,
 } from '@mantine/core';
+import { connection } from 'next/server';
 import { portraitSrc } from '../../lib/imageUrl';
 import { loadStoryCard } from '../../lib/storyCard';
 
@@ -28,6 +29,7 @@ export default async function Page(props: PageProps<'/story'>) {
   if (!snippet || !source) {
     return missingStory();
   }
+  await connection();
   const card = await loadStoryCard(snippet, source);
   if (!card) {
     return missingStory();

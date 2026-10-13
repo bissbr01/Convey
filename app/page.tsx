@@ -1,3 +1,4 @@
+import { connection } from 'next/server';
 import HomeClient from '../components/HomeClient';
 import { loadFirstPage } from '../lib/keywordPage';
 
@@ -10,6 +11,7 @@ export default async function Page(props: PageProps<'/'>) {
   const raw = sp.q;
   const keyword =
     typeof raw === 'string' && raw.trim() !== '' ? raw : DEFAULT_KEYWORD;
+  await connection();
   const firstPage = await loadFirstPage(keyword);
   return <HomeClient keyword={keyword} firstPage={firstPage} />;
 }
